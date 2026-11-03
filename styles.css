@@ -1,7 +1,7 @@
 :root {
   /* Cool pastel grey background */
   --bg: #D2D2CD;
-  /* Brand color — wordmark, divider, heart, status dot */
+  /* Brand color — wordmark, divider, heart */
   --brand: #D9573E;
   /* Dusty mauve — secondary text */
   --muted: #7A6F8A;
@@ -35,36 +35,6 @@ main {
   justify-content: center;
   padding: 64px 24px;
   text-align: center;
-}
-
-/* Top-right status — mirrors the footer's padding */
-.status {
-  padding: 24px 40px 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 8px;
-}
-
-.status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--brand);
-  animation: pulse 2.4s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-.status-text {
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: -0.005em;
-  color: var(--muted);
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.45; transform: scale(0.8); }
 }
 
 .brand {
@@ -116,8 +86,6 @@ footer {
 @media (max-width: 768px) {
   footer { padding: 0 28px 22px; }
   .footer-inner { font-size: 13px; padding-top: 18px; }
-  .status { padding: 22px 28px 0; }
-  .status-text { font-size: 12px; }
 }
 
 @media (max-width: 480px) {
@@ -128,8 +96,6 @@ footer {
     padding-top: 16px;
     gap: 12px;
   }
-  .status { padding: 20px 20px 0; }
-  .status-text { font-size: 11px; }
 }
 
 @media (max-width: 360px) {
