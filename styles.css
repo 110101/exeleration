@@ -1,10 +1,14 @@
 :root {
-  /* Cool pastel grey background */
-  --bg: #D2D2CD;
+  /* Background gradient — sky.js updates these by time of day.
+     Fallback: midday butter yellow. */
+  --bg-top: #F8D49E;
+  --bg-bottom: #FBEDB5;
   /* Brand color — wordmark, divider, heart */
   --brand: #D9573E;
   /* Dusty mauve — secondary text */
   --muted: #7A6F8A;
+  /* Footer text */
+  --footer: #6E6378;
 }
 
 * { box-sizing: border-box; }
@@ -16,8 +20,8 @@ html, body {
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: #D2D2CD;
-  background: var(--bg);
+  background-color: var(--bg-bottom);
+  background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%) fixed;
   color: var(--brand);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -68,7 +72,7 @@ footer {
   font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.005em;
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--footer);
 }
 
 .footer-inner span {
@@ -81,6 +85,11 @@ footer {
   display: inline-block;
   transform: translateY(-1px);
   margin: 0 1px;
+}
+
+/* Text colors switch between day and night palettes — fade, don't jump */
+.brand, .subhead, .footer-inner, .heart {
+  transition: color 2s ease, border-color 2s ease;
 }
 
 @media (max-width: 768px) {
