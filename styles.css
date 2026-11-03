@@ -18,15 +18,24 @@ html, body {
   padding: 0;
 }
 
+/* Gradient lives on <html> so it fills the whole canvas — including the
+   area behind the phone's status bar and browser toolbar (no white bands) */
+html {
+  min-height: 100%;
+  background-color: var(--bg-bottom);
+  background-image: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+  background-attachment: fixed;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: var(--bg-bottom);
-  background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%) fixed;
+  background: transparent;
   color: var(--brand);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   min-height: 100svh;
+  padding-top: env(safe-area-inset-top);
   display: flex;
   flex-direction: column;
 }
@@ -59,7 +68,7 @@ main {
 }
 
 footer {
-  padding: 0 40px 24px;
+  padding: 0 40px calc(24px + env(safe-area-inset-bottom));
 }
 
 .footer-inner {
@@ -93,13 +102,13 @@ footer {
 }
 
 @media (max-width: 768px) {
-  footer { padding: 0 28px 22px; }
+  footer { padding: 0 28px calc(22px + env(safe-area-inset-bottom)); }
   .footer-inner { font-size: 13px; padding-top: 18px; }
 }
 
 @media (max-width: 480px) {
   main { padding: 48px 20px; }
-  footer { padding: 0 20px 20px; }
+  footer { padding: 0 20px calc(20px + env(safe-area-inset-bottom)); }
   .footer-inner {
     font-size: 12px;
     padding-top: 16px;
