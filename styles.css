@@ -11,9 +11,11 @@
   --orb-2: #7A5A6F;   /* faded rose */
   --orb-3: #4A6680;   /* muted steel blue */
   --orb-4: #6B5A8A;   /* hazy lavender */
-  /* Edge orbs — a touch brighter so they still read through Safari's chrome blur */
-  --orb-top: #8871B0;    /* lifted lavender for behind the status bar */
-  --orb-bottom: #9B7585; /* lifted rose for behind the toolbar */
+  /* Edge orbs — brighter and distinct so their motion reads through Safari's chrome blur */
+  --orb-top-a: #8871B0;    /* lavender */
+  --orb-top-b: #6B8FB5;    /* soft blue */
+  --orb-bot-a: #9B7585;    /* rose */
+  --orb-bot-b: #B38A6B;    /* warm peach */
 }
 
 * { box-sizing: border-box; }
@@ -107,26 +109,43 @@ body {
   animation: orb4 20s ease-in-out infinite;
 }
 
-/* Edge orbs — explicitly live in the status-bar / toolbar zones so
-   their glow carries through Safari's translucent chrome. Wide and
-   shallow so they fill the horizontal band without bleeding too far
-   into the center. */
-.orb--top {
-  width: 160vw;
-  height: 50vh;
-  background: var(--orb-top);
-  top: -35vh;
-  left: -30vw;
-  animation: orbTop 15s ease-in-out infinite;
+/* Edge orbs — two per edge zone in different colors so the Safari
+   chrome actually shows color variation and motion, not just a static
+   tinted band. Each pair crosses horizontally in opposite directions. */
+.orb--top-a {
+  width: 60vw;
+  height: 45vh;
+  background: var(--orb-top-a);
+  top: -25vh;
+  left: -20vw;
+  animation: edgeA 12s ease-in-out infinite;
 }
 
-.orb--bottom {
-  width: 160vw;
-  height: 50vh;
-  background: var(--orb-bottom);
-  bottom: -35vh;
-  left: -30vw;
-  animation: orbBottom 17s ease-in-out infinite;
+.orb--top-b {
+  width: 60vw;
+  height: 45vh;
+  background: var(--orb-top-b);
+  top: -25vh;
+  right: -20vw;
+  animation: edgeB 14s ease-in-out infinite;
+}
+
+.orb--bot-a {
+  width: 60vw;
+  height: 45vh;
+  background: var(--orb-bot-a);
+  bottom: -25vh;
+  left: -20vw;
+  animation: edgeB 15s ease-in-out infinite;
+}
+
+.orb--bot-b {
+  width: 60vw;
+  height: 45vh;
+  background: var(--orb-bot-b);
+  bottom: -25vh;
+  right: -20vw;
+  animation: edgeA 13s ease-in-out infinite;
 }
 
 /* Combined drift + breathe keyframes — larger movement, bigger opacity swing */
@@ -152,15 +171,15 @@ body {
   50%      { transform: translate(30vw, -25vh) scale(1.30); opacity: 0.70; }
 }
 
-/* Edge orb breathing — stronger opacity so Safari's blur doesn't kill it */
-@keyframes orbTop {
-  0%, 100% { transform: translateX(0)     scale(1);    opacity: 0.55; }
-  50%      { transform: translateX(-10vw) scale(1.08); opacity: 0.80; }
+/* Edge orbs cross the full width so colors visibly swap under the bars */
+@keyframes edgeA {
+  0%, 100% { transform: translateX(0)    scale(1);    opacity: 0.55; }
+  50%      { transform: translateX(80vw) scale(1.15); opacity: 0.85; }
 }
 
-@keyframes orbBottom {
-  0%, 100% { transform: translateX(0)    scale(1);    opacity: 0.55; }
-  50%      { transform: translateX(10vw) scale(1.08); opacity: 0.80; }
+@keyframes edgeB {
+  0%, 100% { transform: translateX(0)     scale(1);    opacity: 0.55; }
+  50%      { transform: translateX(-80vw) scale(1.15); opacity: 0.85; }
 }
 
 /* ---------- Content ---------- */
