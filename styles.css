@@ -1,14 +1,16 @@
 :root {
-  /* Background gradient — sky.js updates these by time of day.
-     Fallback: midday butter yellow. */
-  --bg-top: #F8D49E;
-  --bg-bottom: #FBEDB5;
-  /* Brand color — wordmark, divider, heart */
-  --brand: #D9573E;
+  /* Deep plum — calm, nocturnal base */
+  --bg: #2A2340;
+  /* Muted coral — wordmark, divider, heart */
+  --brand: #D9856F;
   /* Dusty mauve — secondary text */
-  --muted: #7A6F8A;
-  /* Footer text */
-  --footer: #6E6378;
+  --muted: #9B91B0;
+
+  /* Ambient orb colors — all muted, low saturation, recede into bg */
+  --orb-1: #5A4A7A;   /* soft indigo */
+  --orb-2: #7A5A6F;   /* faded rose */
+  --orb-3: #4A6680;   /* muted steel blue */
+  --orb-4: #6B5A8A;   /* hazy lavender */
 }
 
 * { box-sizing: border-box; }
@@ -18,26 +20,126 @@ html, body {
   padding: 0;
 }
 
-/* Gradient lives on <html> so it fills the whole canvas — including the
-   area behind the phone's status bar and browser toolbar (no white bands) */
-html {
-  min-height: 100%;
-  background-color: var(--bg-bottom);
-  background-image: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
-  background-attachment: fixed;
-}
-
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background: transparent;
+  background-color: #2A2340;
+  background: var(--bg);
   color: var(--brand);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   min-height: 100svh;
-  padding-top: env(safe-area-inset-top);
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---------- Ambient animation ---------- */
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  filter: blur(80px) saturate(1.1);
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+
+.orb--1 {
+  width: 55vmax;
+  height: 55vmax;
+  background: var(--orb-1);
+  top: -15%;
+  left: -10%;
+  animation: drift1 18s ease-in-out infinite,
+             breathe1 7s ease-in-out infinite;
+}
+
+.orb--2 {
+  width: 45vmax;
+  height: 45vmax;
+  background: var(--orb-2);
+  bottom: -15%;
+  right: -10%;
+  animation: drift2 22s ease-in-out infinite,
+             breathe2 9s ease-in-out infinite;
+}
+
+.orb--3 {
+  width: 40vmax;
+  height: 40vmax;
+  background: var(--orb-3);
+  top: 30%;
+  right: 20%;
+  animation: drift3 20s ease-in-out infinite,
+             breathe3 8s ease-in-out infinite;
+}
+
+.orb--4 {
+  width: 35vmax;
+  height: 35vmax;
+  background: var(--orb-4);
+  bottom: 20%;
+  left: 15%;
+  animation: drift4 25s ease-in-out infinite,
+             breathe1 11s ease-in-out infinite;
+}
+
+/* Slow drifting — each orb takes a different path */
+@keyframes drift1 {
+  0%, 100% { transform: translate(0, 0); }
+  33%      { transform: translate(8vw, 12vh); }
+  66%      { transform: translate(-6vw, 8vh); }
+}
+
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0); }
+  33%      { transform: translate(-10vw, -8vh); }
+  66%      { transform: translate(5vw, -12vh); }
+}
+
+@keyframes drift3 {
+  0%, 100% { transform: translate(0, 0); }
+  33%      { transform: translate(-12vw, 10vh); }
+  66%      { transform: translate(10vw, -6vh); }
+}
+
+@keyframes drift4 {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(12vw, -10vh); }
+}
+
+/* Breathing — scale + opacity pulse (Siri-like) */
+@keyframes breathe1 {
+  0%, 100% { transform: scale(1);    opacity: 0.55; }
+  50%      { transform: scale(1.15); opacity: 0.70; }
+}
+
+@keyframes breathe2 {
+  0%, 100% { transform: scale(1);    opacity: 0.50; }
+  50%      { transform: scale(1.20); opacity: 0.65; }
+}
+
+@keyframes breathe3 {
+  0%, 100% { transform: scale(1);    opacity: 0.45; }
+  50%      { transform: scale(1.18); opacity: 0.60; }
+}
+
+/* ---------- Content ---------- */
+
+main,
+footer {
+  position: relative;
+  z-index: 1;
 }
 
 main {
@@ -68,7 +170,7 @@ main {
 }
 
 footer {
-  padding: 0 40px calc(24px + env(safe-area-inset-bottom));
+  padding: 0 40px 24px;
 }
 
 .footer-inner {
@@ -81,7 +183,7 @@ footer {
   font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.005em;
-  color: var(--footer);
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .footer-inner span {
@@ -96,26 +198,30 @@ footer {
   margin: 0 1px;
 }
 
-/* Text colors switch between day and night palettes — fade, don't jump */
-.brand, .subhead, .footer-inner, .heart {
-  transition: color 2s ease, border-color 2s ease;
-}
-
 @media (max-width: 768px) {
-  footer { padding: 0 28px calc(22px + env(safe-area-inset-bottom)); }
+  footer { padding: 0 28px 22px; }
   .footer-inner { font-size: 13px; padding-top: 18px; }
+  .ambient { filter: blur(60px) saturate(1.1); }
 }
 
 @media (max-width: 480px) {
   main { padding: 48px 20px; }
-  footer { padding: 0 20px calc(20px + env(safe-area-inset-bottom)); }
+  footer { padding: 0 20px 20px; }
   .footer-inner {
     font-size: 12px;
     padding-top: 16px;
     gap: 12px;
   }
+  .ambient { filter: blur(50px) saturate(1.1); }
 }
 
 @media (max-width: 360px) {
   .footer-inner { font-size: 11px; }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: none !important;
+  }
 }
