@@ -11,6 +11,9 @@
   --orb-2: #7A5A6F;   /* faded rose */
   --orb-3: #4A6680;   /* muted steel blue */
   --orb-4: #6B5A8A;   /* hazy lavender */
+  /* Edge orbs — a touch brighter so they still read through Safari's chrome blur */
+  --orb-top: #8871B0;    /* lifted lavender for behind the status bar */
+  --orb-bottom: #9B7585; /* lifted rose for behind the toolbar */
 }
 
 * { box-sizing: border-box; }
@@ -104,6 +107,28 @@ body {
   animation: orb4 20s ease-in-out infinite;
 }
 
+/* Edge orbs — explicitly live in the status-bar / toolbar zones so
+   their glow carries through Safari's translucent chrome. Wide and
+   shallow so they fill the horizontal band without bleeding too far
+   into the center. */
+.orb--top {
+  width: 160vw;
+  height: 50vh;
+  background: var(--orb-top);
+  top: -35vh;
+  left: -30vw;
+  animation: orbTop 15s ease-in-out infinite;
+}
+
+.orb--bottom {
+  width: 160vw;
+  height: 50vh;
+  background: var(--orb-bottom);
+  bottom: -35vh;
+  left: -30vw;
+  animation: orbBottom 17s ease-in-out infinite;
+}
+
 /* Combined drift + breathe keyframes — larger movement, bigger opacity swing */
 @keyframes orb1 {
   0%, 100% { transform: translate(0, 0) scale(1);       opacity: 0.45; }
@@ -125,6 +150,17 @@ body {
 @keyframes orb4 {
   0%, 100% { transform: translate(0, 0) scale(1);         opacity: 0.45; }
   50%      { transform: translate(30vw, -25vh) scale(1.30); opacity: 0.70; }
+}
+
+/* Edge orb breathing — stronger opacity so Safari's blur doesn't kill it */
+@keyframes orbTop {
+  0%, 100% { transform: translateX(0)     scale(1);    opacity: 0.55; }
+  50%      { transform: translateX(-10vw) scale(1.08); opacity: 0.80; }
+}
+
+@keyframes orbBottom {
+  0%, 100% { transform: translateX(0)    scale(1);    opacity: 0.55; }
+  50%      { transform: translateX(10vw) scale(1.08); opacity: 0.80; }
 }
 
 /* ---------- Content ---------- */
