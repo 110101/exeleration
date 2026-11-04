@@ -20,12 +20,16 @@ html, body {
   padding: 0;
 }
 
-/* Plum base lives on <html> so it also paints behind iOS Safari's
-   status bar and bottom toolbar — no visible bands at the edges */
+/* Plum base + subtle radial lift painted on <html> so the full canvas
+   (including behind iOS Safari's status bar and bottom toolbar) carries
+   the same colored glow — no darker bands at the edges */
 html {
   min-height: 100%;
   background-color: #2A2340;
-  background: var(--bg);
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 50%, #3A2E55 0%, #2A2340 70%),
+    var(--bg);
+  background-attachment: fixed;
 }
 
 body {
@@ -40,7 +44,6 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
 }
 
 /* ---------- Ambient animation ---------- */
@@ -69,8 +72,8 @@ body {
   width: 55vmax;
   height: 55vmax;
   background: var(--orb-1);
-  top: -15%;
-  left: -10%;
+  top: -30%;
+  left: -15%;
   animation: orb1 14s ease-in-out infinite;
 }
 
@@ -78,8 +81,8 @@ body {
   width: 45vmax;
   height: 45vmax;
   background: var(--orb-2);
-  bottom: -15%;
-  right: -10%;
+  bottom: -30%;
+  right: -15%;
   animation: orb2 18s ease-in-out infinite;
 }
 
