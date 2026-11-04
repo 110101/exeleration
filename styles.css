@@ -20,15 +20,23 @@ html, body {
   padding: 0;
 }
 
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+/* Plum base lives on <html> so it also paints behind iOS Safari's
+   status bar and bottom toolbar — no visible bands at the edges */
+html {
+  min-height: 100%;
   background-color: #2A2340;
   background: var(--bg);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: transparent;
   color: var(--brand);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   min-height: 100svh;
+  padding-top: env(safe-area-inset-top);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -39,7 +47,11 @@ body {
 
 .ambient {
   position: fixed;
-  inset: 0;
+  /* Extend beyond safe areas so the glow reaches behind Safari's bars */
+  top: calc(-1 * env(safe-area-inset-top));
+  right: calc(-1 * env(safe-area-inset-right));
+  bottom: calc(-1 * env(safe-area-inset-bottom));
+  left: calc(-1 * env(safe-area-inset-left));
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
@@ -148,7 +160,7 @@ main {
 }
 
 footer {
-  padding: 0 40px 24px;
+  padding: 0 40px calc(24px + env(safe-area-inset-bottom));
 }
 
 .footer-inner {
@@ -177,14 +189,14 @@ footer {
 }
 
 @media (max-width: 768px) {
-  footer { padding: 0 28px 22px; }
+  footer { padding: 0 28px calc(22px + env(safe-area-inset-bottom)); }
   .footer-inner { font-size: 13px; padding-top: 18px; }
   .ambient { filter: blur(60px) saturate(1.1); }
 }
 
 @media (max-width: 480px) {
   main { padding: 48px 20px; }
-  footer { padding: 0 20px 20px; }
+  footer { padding: 0 20px calc(20px + env(safe-area-inset-bottom)); }
   .footer-inner {
     font-size: 12px;
     padding-top: 16px;
