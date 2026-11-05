@@ -1,17 +1,15 @@
 :root {
-  /* Deep plum — calm, nocturnal base. Used everywhere so the page edges,
-     the area behind Safari's chrome, and the theme-color all match. */
-  --bg: #2A2340;
-  /* Muted coral — wordmark, divider, heart */
-  --brand: #D9856F;
-  /* Dusty mauve — secondary text */
-  --muted: #9B91B0;
+  /* Teenage Engineering-inspired palette — cream canvas, vermillion brand,
+     orbs from the same product-design language. */
+  --bg: #F2ECDC;       /* Cream body */
+  --brand: #D54A28;    /* Vermillion — wordmark, divider, heart */
+  --muted: #6B6560;    /* Warm gray — secondary text */
 
-  /* Ambient orb colors — muted, low saturation, recede into bg */
-  --orb-1: #5A4A7A;   /* soft indigo */
-  --orb-2: #7A5A6F;   /* faded rose */
-  --orb-3: #4A6680;   /* muted steel blue */
-  --orb-4: #6B5A8A;   /* hazy lavender */
+  /* Ambient orb colors — straight from the TE palette */
+  --orb-1: #D4D1C9;    /* Stone Gray */
+  --orb-2: #1F3D28;    /* Deep Forest */
+  --orb-3: #6B8E52;    /* LCD Olive */
+  --orb-4: #D54A28;    /* Vermillion */
 }
 
 * { box-sizing: border-box; }
@@ -21,11 +19,11 @@ html, body {
   padding: 0;
 }
 
-/* Flat plum everywhere — matches theme-color so Safari's chrome tint is
+/* Flat cream everywhere — matches theme-color so Safari's chrome tint is
    indistinguishable from the content edges */
 html {
   min-height: 100%;
-  background-color: #2A2340;
+  background-color: #F2ECDC;
   background: var(--bg);
 }
 
@@ -61,7 +59,9 @@ body {
 .orb {
   position: absolute;
   border-radius: 50%;
-  mix-blend-mode: screen;
+  /* Multiply so darker orb colors (forest, olive, vermillion) tint
+     the cream canvas instead of being invisible on it */
+  mix-blend-mode: multiply;
   will-change: transform, opacity;
 }
 
@@ -103,29 +103,30 @@ body {
   animation: orb4 20s ease-in-out infinite;
 }
 
-/* Tightened drift distances so orbs stay in the center half of the
-   viewport — their glow never reaches close enough to the edges to be
-   visible in the Safari chrome area. */
-@keyframes orb1 {
-  0%, 100% { transform: translate(0, 0) scale(1);       opacity: 0.45; }
-  33%      { transform: translate(10vw, 8vh) scale(1.20); opacity: 0.75; }
-  66%      { transform: translate(-6vw, 6vh) scale(0.90); opacity: 0.55; }
+/* Opacities tuned for multiply-on-cream: forest and vermillion go
+   darker/stronger so they pull back, stone gray goes brighter so it
+   actually shows. Vermillion orb stays low so it doesn't fight the
+   wordmark for attention. */
+@keyframes orb1 { /* stone gray — barely perceptible texture */
+  0%, 100% { transform: translate(0, 0) scale(1);       opacity: 0.60; }
+  33%      { transform: translate(10vw, 8vh) scale(1.20); opacity: 0.80; }
+  66%      { transform: translate(-6vw, 6vh) scale(0.90); opacity: 0.70; }
 }
 
-@keyframes orb2 {
-  0%, 100% { transform: translate(0, 0) scale(1);         opacity: 0.50; }
-  40%      { transform: translate(-12vw, -8vh) scale(1.25); opacity: 0.75; }
-  70%      { transform: translate(6vw, -10vh) scale(0.90);  opacity: 0.55; }
+@keyframes orb2 { /* deep forest — a quiet dark patch */
+  0%, 100% { transform: translate(0, 0) scale(1);         opacity: 0.18; }
+  40%      { transform: translate(-12vw, -8vh) scale(1.25); opacity: 0.32; }
+  70%      { transform: translate(6vw, -10vh) scale(0.90);  opacity: 0.22; }
 }
 
-@keyframes orb3 {
-  0%, 100% { transform: translate(0, 0) scale(1);         opacity: 0.40; }
-  50%      { transform: translate(-12vw, 10vh) scale(1.30); opacity: 0.70; }
+@keyframes orb3 { /* lcd olive — medium green wash */
+  0%, 100% { transform: translate(0, 0) scale(1);         opacity: 0.28; }
+  50%      { transform: translate(-12vw, 10vh) scale(1.30); opacity: 0.45; }
 }
 
-@keyframes orb4 {
-  0%, 100% { transform: translate(0, 0) scale(1);         opacity: 0.45; }
-  50%      { transform: translate(12vw, -10vh) scale(1.25); opacity: 0.65; }
+@keyframes orb4 { /* vermillion — subtle so it doesn't rival the wordmark */
+  0%, 100% { transform: translate(0, 0) scale(1);         opacity: 0.20; }
+  50%      { transform: translate(12vw, -10vh) scale(1.25); opacity: 0.35; }
 }
 
 /* ---------- Content ---------- */
@@ -177,7 +178,7 @@ footer {
   font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.005em;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .footer-inner span {
