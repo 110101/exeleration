@@ -5,10 +5,8 @@
   --brand: #D54A28;    /* Vermillion — wordmark, divider, heart */
   --muted: #6B6560;    /* Warm gray — secondary text */
 
-  /* Ambient orb colors — straight from the TE palette (no Deep Forest) */
-  --orb-1: #D4D1C9;    /* Stone Gray */
-  --orb-3: #6B8E52;    /* LCD Olive */
-  --orb-4: #D54A28;    /* Vermillion */
+  /* Single ambient orb — LCD Olive */
+  --orb: #6B8E52;
 }
 
 * { box-sizing: border-box; }
@@ -55,63 +53,30 @@ body {
   filter: blur(80px) saturate(1.1);
 }
 
+/* One olive orb — centered in the canvas, drifts through the middle
+   and breathes in opacity. Stays well inside the viewport so the
+   Safari chrome area and the page edges all remain uniform cream.
+   Multiply so the dark olive tints the cream instead of vanishing. */
 .orb {
   position: absolute;
+  width: 42vmin;
+  height: 42vmin;
   border-radius: 50%;
-  /* Multiply so darker orb colors (forest, olive, vermillion) tint
-     the cream canvas instead of being invisible on it */
+  background: var(--orb);
+  top: 50%;
+  left: 50%;
+  margin-top: -21vmin;
+  margin-left: -21vmin;
   mix-blend-mode: multiply;
   will-change: transform, opacity;
+  animation: orbDrift 14s ease-in-out infinite;
 }
 
-/* Orbs are small and sit well inside the viewport so their glow never
-   reaches the screen edges — the Safari chrome area stays uniform plum. */
-/* Durations 15% faster than before (14→12s, 16→13.6s, 20→17s) */
-.orb--1 {
-  width: 32vmin;
-  height: 32vmin;
-  background: var(--orb-1);
-  top: 28%;
-  left: 20%;
-  animation: orb1 12s ease-in-out infinite;
-}
-
-.orb--3 {
-  width: 26vmin;
-  height: 26vmin;
-  background: var(--orb-3);
-  top: 42%;
-  right: 30%;
-  animation: orb3 13.6s ease-in-out infinite;
-}
-
-.orb--4 {
-  width: 24vmin;
-  height: 24vmin;
-  background: var(--orb-4);
-  bottom: 42%;
-  left: 30%;
-  animation: orb4 17s ease-in-out infinite;
-}
-
-/* Opacities tuned for multiply-on-cream: forest and vermillion go
-   darker/stronger so they pull back, stone gray goes brighter so it
-   actually shows. Vermillion orb stays low so it doesn't fight the
-   wordmark for attention. */
-@keyframes orb1 { /* stone gray — barely perceptible texture */
-  0%, 100% { transform: translate(0, 0) scale(1);       opacity: 0.60; }
-  33%      { transform: translate(10vw, 8vh) scale(1.20); opacity: 0.80; }
-  66%      { transform: translate(-6vw, 6vh) scale(0.90); opacity: 0.70; }
-}
-
-@keyframes orb3 { /* lcd olive — medium green wash */
-  0%, 100% { transform: translate(0, 0) scale(1);         opacity: 0.28; }
-  50%      { transform: translate(-12vw, 10vh) scale(1.30); opacity: 0.45; }
-}
-
-@keyframes orb4 { /* vermillion — subtle so it doesn't rival the wordmark */
-  0%, 100% { transform: translate(0, 0) scale(1);         opacity: 0.20; }
-  50%      { transform: translate(12vw, -10vh) scale(1.25); opacity: 0.35; }
+@keyframes orbDrift {
+  0%, 100% { transform: translate(0, 0);          opacity: 0.30; }
+  25%      { transform: translate(8vw, -6vh);     opacity: 0.50; }
+  50%      { transform: translate(-6vw, 8vh);     opacity: 0.25; }
+  75%      { transform: translate(-10vw, -4vh);   opacity: 0.55; }
 }
 
 /* ---------- Content ---------- */
